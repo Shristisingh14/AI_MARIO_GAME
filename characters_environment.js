@@ -124,7 +124,7 @@ function startGame(){
 
 // change game status if any key is pressed
 function changeGameStatud(character){
-  if((keyDown(control.up) ||keyDown(control.left)||keyDown(control.right) )&& gameConfig.status==="start") {
+  if( GameStatus=="start" && noseX!= "" && gameConfig.status==="start") {
     world_start.play();
     initializeCharacterStatus(mario);
     gameConfig.status= "play";
@@ -181,7 +181,7 @@ function initializeCharacterStatus(character){
 function instializeInDraw(){
   background(109,143,252);
   
-  //while killing
+  // while killing
   if(mario.killing>0){
     mario.killing-=1;
   }else{
@@ -211,7 +211,7 @@ function instializeInDraw(){
 
 /*=====       End of Instialize        ======*/
 
-
+ 
 
 /*============================================
 =            Interactive Elements            =
@@ -288,13 +288,13 @@ function autoControl(character){
 function manualControl(character){
   
   if(character.live){
-    if(keyDown(control.left)){
+    if(noseX < 300){
       character.velocity.x-=gameConfig.moveSpeed;
       character.changeAnimation('move');
       character.mirrorX(-1);
     }
 
-    if(keyDown(control.right)){
+    if(noseX > 300){
       character.velocity.x+=gameConfig.moveSpeed;
       character.changeAnimation('move');
       character.mirrorX(1);
@@ -309,7 +309,7 @@ function manualControl(character){
 
 /* Movements of character */
 function jumping(character){
-	if( (keyWentDown(control.up)&&character.live) || (touchIsDown&&character.live) ){
+	if( ( noseY < 150 &&character.live) || (touchIsDown&&character.live)) {
 		character.velocity.y+=gameConfig.jump;
 	}
 }
@@ -578,7 +578,6 @@ function scores(character){
 
   gameConfig.scores=character.coins+character.kills+gameConfig.timeScores;
 
-
   if(character.live&&gameConfig.status==='play') gameConfig.timeScores+=0.05;
   
   text("scores: "+round(gameConfig.scores),20,40);
@@ -604,9 +603,7 @@ function scores(character){
     text(round(character.liveNumber),gameConfig.screenX/2,gameConfig.screenY/2-35);
     text("lives",gameConfig.screenX/2,gameConfig.screenY/2);
 
-    
   }
-
 
 }
 
@@ -620,5 +617,4 @@ function upSide(obj){ return obj.position.y-(obj.height/2);}
 function downSide(obj){ return obj.position.y+(obj.height/2);}
 
 /*=====  End of For Debugging  ======*/
-
 
